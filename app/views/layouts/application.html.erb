@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JobsTagsApp</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" integrity="sha512-XcIsjKMcuVe0Ucj/xgIXQnytNwBttJbNjltBV18IOnru2lDPe9KRRyvCXw6Y5H415vbBLRm8+q6fmLUU7DfO6Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="flex flex-col min-h-screen">
+
+    <%# Navbar %>
+    <nav class="bg-white border-gray-200 dark:bg-gray-900">
+      <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
+        <a href="<%= root_path %>" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <span class="self-center text-2xl font-semibold whitespace-nowrap text-green-300 ">TrouveTonJob</span>
+        </a>
+        
+        <% if user_logged_in? %>
+          <div class="flex items-center space-x-6 rtl:space-x-reverse">
+            <a href="/#" class="text-sm  p-2">
+              <span class="mr-2">Bienvenue <%= current_user.first_name %></span>
+              <img
+              src="https://docs.material-tailwind.com/img/face-2.jpg"
+              alt="avatar"
+              class="relative inline-block h-12 w-12 !rounded-full  object-cover object-center"
+              />
+            </a>
+            <%= form_with url: sessions_path, method: :delete , class:"ml-5 flex items-center justify-center gap-x-2" do |f| %>
+                <button type="submit">
+                  <span>Deconnexion</span>
+                  <i class="ri-logout-box-line"></i>
+                </button>
+            <% end %>
+              
+          </div>
+
+        <% else %>
+          <div class="flex items-center space-x-6 rtl:space-x-reverse">
+            <a href="<%= new_user_path %>" class="text-sm  text-white p-2 bg-green-500 hover:underline"> S'inscrire </a>
+            <a href="<%= login_path %>" class="text-sm text-white p-2 bg-blue-500  hover:underline">
+              <span class="mr-2">Se connecter </span>
+              <i class="ri-user-3-fill"></i>
+            </a>
+          </div> 
+        <% end %>
+        
+      </div>
+    </nav>
+    <nav class="bg-gray-50 dark:bg-gray-700">
+      <div class="max-w-screen-xl px-4 py-3 mx-auto">
+        <div class="flex items-center">
+          <ul class="flex flex-row font-medium mt-0 space-x-8 rtl:space-x-reverse text-sm">
+            <li>
+                <a href="<%= root_path %>" class="text-gray-900 dark:text-white hover:underline" aria-current="page">Accueil</a>
+            </li>
+            <li>
+                <a href="<%= jobs_path %>" class="text-gray-900 dark:text-white hover:underline">Offres</a>
+            </li>
+            <li>
+                <a href="#" class="text-gray-900 dark:text-white hover:underline">A propos</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <%# Navbar End %>
+
+    <main class="flex_grow">
+      <%= yield %>
+    </main>
+
+    <footer class="flex flex-col space-y-10 justify-center m-10 bg-white">
+        <div class="flex justify-center flex-wrap gap-6 text-black font-medium">
+            <a class="text-black" href="#">Accueil</a>
+            <a class="text-black" href="#">Offres</a>
+            <a class="text-black" href="#">About</a>
+        </div>
+        <div class="flex justify-center space-x-5">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                <img src="https://img.icons8.com/fluent/30/000000/facebook-new.png" />
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                <img src="https://img.icons8.com/fluent/30/000000/linkedin-2.png" />
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                <img src="https://img.icons8.com/fluent/30/000000/instagram-new.png" />
+            </a>
+            <a href="https://messenger.com" target="_blank" rel="noopener noreferrer">
+                <img src="https://img.icons8.com/fluent/30/000000/facebook-messenger--v2.png" />
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                <img src="https://img.icons8.com/fluent/30/000000/twitter.png" />
+            </a>
+        </div>
+        <p class="text-center text-black font-medium">&copy; 2025 TrouveTonJob. All rights reservered.</p>
+    </footer>
+  </body>
+</html>
