@@ -34,14 +34,26 @@
               />
             </a>
             <%= form_with url: sessions_path, method: :delete , class:"ml-5 flex items-center justify-center gap-x-2" do |f| %>
+                <button class="hover:text-red-500" type="submit">
+                  <span class="hover:text-red-500" >Deconnexion</span>
+                  <i class="ri-logout-box-line"></i>
+                </button>
+            <% end %>
+          </div>
+        <%elsif company_logged_in? %>
+          <div class="flex items-center space-x-6 rtl:space-x-reverse"></div>
+            <a href="<%= edit_company_path(current_company.id)%>" class="text-sm  p-2">
+              <span class="mr-2">Bienvenue <%= current_company.company_name%></span>
+              <%if current_company.logo.attached?%>
+                <%= image_tag current_company.logo, class: "relative inline-block h-12 w-12 !rounded-full object-cover object-center"%>     
+              <%end%>   
+            </a>
+            <%= form_with url: sessions_path, method: :delete , class:"ml-5 flex items-center justify-center gap-x-2" do |f| %>
                 <button type="submit">
                   <span>Deconnexion</span>
                   <i class="ri-logout-box-line"></i>
                 </button>
             <% end %>
-              
-          </div>
-
         <% else %>
           <div class="flex items-center space-x-6 rtl:space-x-reverse">
             <a href="<%= new_user_path %>" class="text-sm  text-white p-2 bg-green-500 hover:underline"> S'inscrire </a>
@@ -64,6 +76,15 @@
             <li>
                 <a href="<%= jobs_path %>" class="text-gray-900 dark:text-white hover:underline">Offres</a>
             </li>
+            <% if company_logged_in? %>
+              <li>
+                <a href="<%=company_jobs_path(current_company.id) %>" class="text-gray-900 dark:text-white hover:underline" aria-current="page">My jobs</a>
+              </li>
+              <li>
+                <a href="<%=new_company_job_path(current_company.id) %>" class="text-gray-900 dark:text-white hover:underline" aria-current="page">Poster Job</a>
+              </li>
+            <% end %>
+            
             <li>
                 <a href="#" class="text-gray-900 dark:text-white hover:underline">A propos</a>
             </li>

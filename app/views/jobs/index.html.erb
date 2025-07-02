@@ -1,0 +1,60 @@
+
+<div class="flex flex-col mt-5  gap-y-5 items-center">
+    <div class="max-w-screen-xl mx-auto p-2 sm:p-10 md:p-10">
+        
+        <%# Jobs Card %>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+            <% @jobs.each do |job| %>
+                <!-- CARD -->
+                <div class="rounded overflow-hidden shadow-lg flex flex-col">
+                    <div class="relative">
+                        <a href= "<%= company_job_path(job.company, job)%>">
+                            <%if job.company.logo.attached? %>
+                                <%=image_tag job.company.logo , class:"md:w-full w-300  max-h-75" %>
+                            <%end%>
+                            <div
+                                class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25">
+                            </div>
+                        </a>
+                        <a href="<%= edit_company_job_path(job.company,job) %>">
+                            <div
+                                class="text-xs absolute top-0 right-0 bg-green-400 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-indigo-600 transition duration-500 ease-in-out">
+                                Modifier <i class="ri-edit-2-fill"></i>
+                            </div>
+                        </a>
+                        
+                    </div>
+                    <div class="px-6 py-4 mb-auto">
+                        <div class="flex justify-between">
+                            <a href="<%= company_job_path(job.company, job)%>"
+                            class="font-medium text-lg inline-block hover:text-indigo-600 transition duration-500 ease-in-out inline-block mb-2"><%= job.title %>
+                            </a>
+                            <%= form_with url:company_job_path(job.company,job), method: :delete  do |f|%>
+                                <button class="p-2  text-white bg-orange-500 hover:bg-red" type="submit">
+                                    <i class="ri-delete-bin-5-fill"></i>
+                                </button>
+                            <%end%>    
+                        </div>
+                        
+                        <p class="text-gray-500 text-sm line-clamp-3 ">
+                            <%=job.description%>
+                        </p>
+                    </div>
+                    <div class="px-6 py-3 flex flex-row items-center justify-between bg-gray-100">
+                        <span href="#" class="py-1 text-xs font-regular text-gray-900 mr-1 flex flex-row items-center">
+                            <i class="ri-building-4-fill"></i>
+                            <span class="ml-1"><%= job.company.company_name%></span>
+                        </span>
+
+                        <span href="#" class="py-1 text-xs font-regular text-gray-900 mr-1 flex flex-row items-center">
+                            <i class="ri-map-pin-fill"></i>
+                            <span class="ml-1"><%= job.location%></span>
+                        </span>
+                    </div>
+                </div>
+            <%end%>
+            
+        </div>  
+        <%# End Jobs Card %>
+    </div>
+</div>

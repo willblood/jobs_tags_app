@@ -1,7 +1,7 @@
 class CompaniesController < ApplicationController
 
   before_action :set_company , only: [:edit, :update, :show]
-  before_action :authorize_company, only: [:edit, :update, :show]
+  before_action :check_company_authorization, only: [:edit, :update, :show]
 
   def index
     @jobs= Job.all
@@ -26,32 +26,37 @@ class CompaniesController < ApplicationController
   end
 
   def update
-    if  @company. update(update_params)
+    if  @company.update(update_params)
       flash[:success]="Updated Successfully !"
-      redirect_to company_path
-    else
+      redirect_to edit_company_path(@company)
+    else      
       flash.now[:error]= "Update Failed !"
-      redirect_to edit_company_path
+      redirect_to edit_company_path(@company)
     end
+
   end
 
   #show
   def show
     @company
-    @followers= @company.followers
+    # @followers= @company.followers
   end
 
   private
   def create_params
-    params.permit(:email,:company_name, :password, :password_confirmed, :industry, :description, :logo)
+    params.permit(:email,:company_name, :password, :password_confirmation, :industry, :description, :logo)
   end
 
   def update_params
-    params.require(:company).permit(:company_name, :password, :password_confirmed, :industry, :description, :logo)
+    params.require(:company).permit(:email,:company_name,:industry, :description, :logo)
   end
 
   def set_company
     @company= Company.find(params[:id])
+  end
+
+  def check_company_authorization
+    authorize_company(set_company)
   end
 
 end

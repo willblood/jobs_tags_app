@@ -1,10 +1,11 @@
 class JobsController < ApplicationController
   before_action :set_company
   before_action :set_job  , only: [:edit, :update, :show, :destroy]
-  before_action :authorize_company, only: [:edit, :update, :destroy]
+  before_action :check_company_authorization, only: [:edit, :update, :destroy]
 
   def index
-    @jobs= Job.all
+    @jobs= @company.jobs
+
   end
 
   def new;end
@@ -25,7 +26,7 @@ class JobsController < ApplicationController
   end
 
   def update
-    if @jobs.update(update_params)
+    if @job.update(update_params)
       flash[:success]= "Updated successfully !"
       redirect_to company_jobs_path
     else
@@ -35,13 +36,13 @@ class JobsController < ApplicationController
   end
 
   def show
-    @jobs= @company.jobs
+    @jobs
   end
 
   def destroy
     if @job.destroy
       flash[:success]= "Job deleted !"
-      redirect_to company_jobs_path_path
+      redirect_to company_jobs_path(@company)
     else
       flash.now[:error]= "Failed to delete job !"
       redirect_to company_jobs_path
@@ -50,10 +51,10 @@ class JobsController < ApplicationController
   
   private
   def create_params
-    params.permit(:title,:description)
+    params.permit(:title,:description,:location)
   end
   def update_params
-    params.require(:job).permit(:title,:description)
+    params.require(:job).permit(:title,:description,:location)
   end
   def set_company
     @company= Company.find(params[:company_id])
@@ -61,5 +62,8 @@ class JobsController < ApplicationController
 
   def set_job
     @job= Job.find(params[:id])
+  end
+  def check_company_authorization
+    authorize_company(set_company)
   end
 end

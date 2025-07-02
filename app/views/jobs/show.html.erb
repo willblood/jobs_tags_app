@@ -1,0 +1,28 @@
+<div class="relative p-4">
+    <div class="max-w-3xl mx-auto">
+        <div
+            class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
+            <div class="">
+                <div class="flex gap-x-10 mb-5">
+                    <%if @job.company.logo.attached?%>
+                    <a href="<%=company_path(@job.company)%>">
+                        <%= image_tag @job.company.logo, class: "relative inline-block h-12 w-12 !rounded-full object-cover object-center"%>
+                    </a>
+                    <%end%>
+                    <h1 href="#" class="text-gray-900 font-bold text-4xl"><%= @job.title%></h1>
+                </div>
+                
+                <hr>
+                <p class="text-base leading-8 my-5">
+                    <%=@job.description%>
+                </p>
+                <%if @job.company.logo.attached?%>
+                    <a class="text-xs text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out" href="<%=company_path(@job.company)%>">
+                        <%= @job.company.company_name%>
+                    </a>
+                <%end%>
+            </div>
+
+        </div>
+    </div>
+</div>

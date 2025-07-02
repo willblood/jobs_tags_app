@@ -5,6 +5,7 @@ class HomesController < ApplicationController
 
   def jobs
     @jobs= Job.all
+    @companies= Company.all
   end
 
 end

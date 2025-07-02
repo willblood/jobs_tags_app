@@ -1,0 +1,75 @@
+<section class="py-10 my-auto dark:bg-gray-900">
+    <div class="lg:w-[80%] md:w-[90%] w-[96%] mx-auto flex gap-4">
+        <div
+            class="lg:w-[88%] sm:w-[88%] w-full mx-auto shadow-2xl p-4 rounded-xl h-fit self-center dark:bg-gray-800/40">
+            <!--  -->
+            <div class="">
+                <h1
+                    class="lg:text-3xl md:text-2xl text-xl font-serif font-extrabold mb-2 dark:text-white">
+                    Profile
+                </h1>
+                <h2 class="text-grey text-sm mb-4 dark:text-gray-400">Modifier Profile</h2>
+                <%= form_with model: @company, url:company_path(@company) , method:"put" do |f| %>
+                    <div class="flex flex-col gap-x-5 justify-between">
+                        <div class="max-W-200 max-h-70 mb-5">
+                            <% if @company.logo.attached?%>
+                            <%= image_tag @company.logo, class:"object-fit" %>
+                            <%end%>
+                        </div>
+                        <div class="w-96 flex ">
+                            <div class="relative w-full min-w-[200px]">
+                                <%= f.text_area :description,
+                                class:"peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 
+                                        font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border 
+                                        placeholder-shown:border-blue-gray-200
+                                        placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent 
+                                        focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
+                                %>
+                                <label class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none
+                                                text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1
+                                                before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all
+                                                after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t 
+                                                after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent
+                                                peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-900 
+                                                peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
+                                Description
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col lg:flex-row gap-2 justify-center w-full">
+                        <div class="w-full  mb-4 mt-6">
+                            <label for="" class="mb-2 dark:text-gray-300">Nom Entreprise</label>
+                            <%= f.text_field :company_name ,
+                                    class:"mt-2 p-4 w-full border-2 rounded-lg dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800",
+                                    placeholder:"Nom business"%>
+                        </div>
+                        <div class="w-full  mb-4 lg:mt-6">
+                            <label for="" class=" dark:text-gray-300">Industrie</label>
+                            <%= f.text_field :industry,
+                                    class:"mt-2 p-4 w-full border-2 rounded-lg dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800",
+                                    placeholder:"Dans quel secteur vous opérez ?"%>
+                        </div>
+                        <div class="w-full  mb-4 lg:mt-6">
+                            <label for="" class=" dark:text-gray-300">Email</label>
+                            <%= f.text_field :email,
+                                    class:"mt-2 p-4 w-full border-2 rounded-lg dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800",
+                                    placeholder:"example@gmail.com"%>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <label class="block  text-sm font-medium text-gray-900 dark:text-white" for="file_input">Logo Entreprise</label>
+                        <%= f.file_field :logo,
+                            class:"block text-sm text-gray-900 border border-gray-300 rounded-lg 
+                            cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
+                        %>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
+                    </div>  
+                                    
+                    <button type="submit" class=" bg-blue-500 text-white h-10 p-2 mt-10">Modifier</button>
+                    
+                <%end%>
+            </div>
+        </div>
+    </div>
+</section>

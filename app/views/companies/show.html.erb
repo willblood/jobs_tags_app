@@ -1,0 +1,33 @@
+<div class="flex flex-col items-center gap-y-10 overflow-x-hidden">
+
+    <div class="w-full flex justify-between items-center mt-5">
+        <div class="m-5 flex items-center gap-x-4">
+
+            <% if @company.logo.attached?%>
+                <%= image_tag @company.logo, class: "relative inline-block h-12 w-12 !rounded-full object-cover object-center"%>
+            <%end%>   
+            <p class="">
+                <%= @company.company_name%>
+            </p>
+        </div>
+        <div class="flex justify-between md:gap-x-20 m-5">
+            <span>
+                <%=@company.industry%>
+                <i class="ri-building-4-fill"></i>
+            </span>
+            <span>
+                55
+                Abonnés
+                <i class="ri-group-3-fill"></i>
+            </span>
+        </div>
+    </div>
+    <div class="md:w-200 p-5">
+        <p class="mb-3 text-gray-500 dark:text-gray-400 first-line:uppercase first-line:tracking-widest first-letter:text-7xl first-letter:font-bold first-letter:text-gray-900 dark:first-letter:text-gray-100 first-letter:me-3 first-letter:float-start"><%=@company.description%></p>
+        <p class="text-gray-500 dark:text-gray-400"><%=@company.description%></p>
+    </div>
+    <div>
+
+    </div>
+
+</div>
