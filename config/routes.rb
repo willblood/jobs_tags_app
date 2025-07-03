@@ -14,10 +14,12 @@ Rails.application.routes.draw do
     end
   end
   resources :users
-  resources :follows , only: [ :create, :destroy]
+  resources :follows , only: [ :create]
 
   get "/login" , to:"sessions#new"
   post "/login" , to: "sessions#create"
   delete "/sessions", to: "sessions#destroy"
+
+  delete "/unfollow", to: "follows#unfollow"
 
 end

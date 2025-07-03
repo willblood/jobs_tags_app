@@ -1,3 +1,4 @@
+
 <div class="flex flex-col items-center gap-y-10 overflow-x-hidden">
 
     <div class="w-full flex justify-between items-center mt-5">
@@ -15,11 +16,13 @@
                 <%=@company.industry%>
                 <i class="ri-building-4-fill"></i>
             </span>
-            <span>
-                55
-                Abonnés
-                <i class="ri-group-3-fill"></i>
-            </span>
+
+                <span>
+                    <%= @company.followers.count %>
+                    Abonnés
+                    <i class="ri-group-3-fill"></i>
+                </span>
+            
         </div>
     </div>
     <div class="md:w-200 p-5">

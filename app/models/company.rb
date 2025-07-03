@@ -3,7 +3,7 @@ class Company < ApplicationRecord
   has_secure_password
   has_many :jobs
   has_many :follows
-  has_many :followers, through: :follows, source: :users
+  has_many :followers, through: :follows, source: :user
   validates :email, presence: true
   validates :password, presence: true ,on: :create
 end

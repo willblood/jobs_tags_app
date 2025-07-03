@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  helper_method :user_logged_in? , :authorize_company, :authorize_user, :current_user, :current_company, :company_logged_in?
+  helper_method :authorize_company, :authorize_user, :current_user, :current_company, :is_followed_by_user
   
 
   def current_user
@@ -10,15 +10,7 @@ class ApplicationController < ActionController::Base
     @current_company ||= Company.find(session[:company_id]) if session[:company_id].present?
   end
 
-  def user_logged_in?
-    return true if current_user != nil
-    false
-  end
-
-  def company_logged_in?
-    return true if current_company !=nil
-    false
-  end
+  
 
   def authorize_company(company)
     unless company == current_company
@@ -32,6 +24,18 @@ class ApplicationController < ActionController::Base
       render json: { error: 'Not Authorized' }, status: :unauthorized
     end
     true
+  end
+
+  def is_followed_by_user(company_id)
+    
+    if Company.find(company_id)
+      company= Company.find(company_id)
+      followers= company.followers
+      return true if followers.find{|follower| follower.id==current_user.id } !=nil
+      return false
+    else
+      return false
+    end
   end
 
 

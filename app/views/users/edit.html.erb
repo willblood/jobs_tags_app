@@ -9,26 +9,26 @@
                     Profile
                 </h1>
                 <h2 class="text-grey text-sm mb-4 dark:text-gray-400">Modifier Profile</h2>
-                <%= form_with model: @company, url:company_path(@company) , method:"put" do |f| %>
+                <%= form_with model: @user, url:user_path(@user) , method:"put" do |f| %>
                     <div class="flex flex-col gap-x-5 justify-between">
-                        <div class="max-W-200 max-h-70 mb-5">
-                            <% if @company.logo.attached?%>
-                            <%= image_tag @company.logo, class:"object-fit" %>
+                        <div class="max-W-200 max-h-65 mb-5">
+                            <% if @user.avatar.attached?%>
+                            <%= image_tag @user.avatar, class:"w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0" %>
                             <%end%>
                         </div>
                         <details class="open">
                             <!-- Button to be visible -->
                             <summary
-                                class=" w-70 p-5  block  hover:text-gray-500 hover:underline cursor-pointer">
-                                <span class="p-5">
-                                    <%= @followers.count %>
-                                    Abonnés
+                                class=" w-70  block  hover:text-gray-500 hover:underline cursor-pointer">
+                                <span>
+                                    <%= @user.followed_companies.count %>
+                                    Abonnemements
                                     <i class="ri-group-3-fill"></i>
                                 </span>
                             </summary>
 
                             <!-- Content it will be hidden, till user clicks on the summary button. -->
-                            <div class="bg-black rounded-2xl w-80 h-[40%] my-auto mx-auto absolute inset-0 text-gray-600 p-4 py-8">
+                            <div class="bg-black rounded-2xl w-[50%] h-[40%] my-auto mx-auto absolute inset-0 text-gray-600 p-4 py-8">
                                 <span onclick="document.querySelector('details').removeAttribute('open')"
                                     class="bg-gray-400 rounded-full flex items-center justify-center text-3xl font-bold uppercase absolute -right-4 -top-4 w-10 h-10 text-white hover:bg-blue-200 hover:duration-200 cursor-pointer">
                                     X
@@ -38,57 +38,53 @@
                                     </div>
                                     <div class="flow-root">
                                         <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-                                                <% @followers.each do |user| %>
+                                            <% if @followed_companies.any? %>
+                                                <% @followed_companies.each do |company| %>
                                                     <li class="py-3 sm:py-4">
                                                         <div class="flex items-center space-x-4">
                                                             <div class="flex-shrink-0">
-                                                                <% if user.avatar.attached? %>
-                                                                    <%= image_tag user.avatar, class:"w-8 h-8 rounded-full object-cover", alt:"user avatar#{user.last_name}" %>
+                                                                <% if company.logo.attached? %>
+                                                                    <%= image_tag company.logo, class:"w-8 h-8 rounded-full object-cover", alt:"Logo de l'entreprise #{company.company_name}" %>
                                                                 <% end %>
                                                             </div>
                                                             <div class="flex-1 min-w-0">
                                                                 <p class="text-sm font-medium text-gray-900 truncate text-white">
-                                                                    <%= "#{user.last_name} #{user.first_name} " %>
+                                                                    <%= company.company_name %>
                                                                 </p>
+                                                            </div>
+                                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                                <%= form_with url: unfollow_path, method: "delete" do |f| %>
+                                                                    <%= f.hidden_field :user_id, value: current_user.id %>
+                                                                    <%= f.hidden_field :company_id, value: company.id%>
+                                                                    <button class="text-xs bg-green-500 px-4 py-2 text-white hover:bg-red-600 transition duration-300 ease-in-out rounded-md" type="submit">
+                                                                        Se désabonner <i class="ri-notification-off-line"></i>
+                                                                    </button>
+                                                                <% end %>
                                                             </div>
                                                         </div>
                                                     </li>
                                                 <% end %>
+                                            <% else %>
+                                                <li class="py-3 sm:py-4 text-center text-gray-500 dark:text-gray-400">
+                                                    Vous ne suivez aucune entreprise pour le moment.
+                                                </li>
+                                            <% end %>
                                         </ul>
                                     </div>
                             </div>  
                         </details>
-                        <div class="w-96 flex ">
-                            <div class="relative w-full min-w-[200px]">
-                                <%= f.text_area :description,
-                                class:"peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 
-                                        font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border 
-                                        placeholder-shown:border-blue-gray-200
-                                        placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent 
-                                        focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
-                                %>
-                                <label class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none
-                                                text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1
-                                                before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all
-                                                after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t 
-                                                after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent
-                                                peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-900 
-                                                peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-                                Description
-                                </label>
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="flex flex-col lg:flex-row gap-2 justify-center w-full">
                         <div class="w-full  mb-4 mt-6">
-                            <label for="" class="mb-2 dark:text-gray-300">Nom Entreprise</label>
-                            <%= f.text_field :company_name ,
+                            <label for="" class="mb-2 dark:text-gray-300">Nom </label>
+                            <%= f.text_field :last_name ,
                                     class:"mt-2 p-4 w-full border-2 rounded-lg dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800",
                                     placeholder:"Nom business"%>
                         </div>
                         <div class="w-full  mb-4 lg:mt-6">
-                            <label for="" class=" dark:text-gray-300">Industrie</label>
-                            <%= f.text_field :industry,
+                            <label for="" class=" dark:text-gray-300">Prenom</label>
+                            <%= f.text_field :first_name,
                                     class:"mt-2 p-4 w-full border-2 rounded-lg dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800",
                                     placeholder:"Dans quel secteur vous opérez ?"%>
                         </div>
@@ -100,8 +96,8 @@
                         </div>
                     </div>
                     <div class="mt-5">
-                        <label class="block  text-sm font-medium text-gray-900 dark:text-white" for="file_input">Logo Entreprise</label>
-                        <%= f.file_field :logo,
+                        <label class="block  text-sm font-medium text-gray-900 dark:text-white" for="file_input">Photo profile</label>
+                        <%= f.file_field :avatar,
                             class:"block text-sm text-gray-900 border border-gray-300 rounded-lg 
                             cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
                         %>
@@ -115,3 +111,5 @@
         </div>
     </div>
 </section>
+
+

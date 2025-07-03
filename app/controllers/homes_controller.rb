@@ -4,7 +4,7 @@ class HomesController < ApplicationController
   end
 
   def jobs
-    @jobs= Job.all
+    @jobs= Job.order("created_at DESC")
     @companies= Company.all
   end
 

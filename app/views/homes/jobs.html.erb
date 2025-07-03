@@ -49,12 +49,31 @@
                                 class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25">
                             </div>
                         </a>
-                        <a href="">
-                            <div
-                                class="text-xs absolute top-0 right-0 bg-indigo-600 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-indigo-600 transition duration-500 ease-in-out">
-                                Follow
-                            </div>
-                        </a>
+                        <%if job.company.present?%>
+                            
+                            <%if current_user%>
+                                <% if !is_followed_by_user(job.company.id) %>
+                                    <%= form_with url: follows_path, method:"post" do |f|%>
+                                        <div
+                                            class="text-xs absolute top-0 right-0 bg-green-500 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-indigo-600 transition duration-500 ease-in-out">
+                                            <%=f.hidden_field :company_id, value: job.company.id %>
+                                            <%=f.hidden_field :user_id, value: current_user.id %>
+                                            <button type="submit">Suivre <i class="ri-notification-2-line"></i></button>
+                                        </div>
+                                    <%end%>
+                                <% else %>
+                                    <%= form_with url: unfollow_path, method: :delete do |f|%>
+                                        <div
+                                            class="text-xs absolute top-0 right-0 bg-red-500 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-indigo-600 transition duration-500 ease-in-out">
+                                            <%=f.hidden_field :company_id, value: job.company.id %>
+                                            <%=f.hidden_field :user_id, value: current_user.id %>
+                                            <button type="submit">Se désabonner <i class="ri-notification-off-line"></i></button>
+                                        </div>
+                                    <%end%>
+                                <% end %>
+                            <%end%>
+
+                        <%end%>
                     </div>
                     <div class="px-6 py-4 mb-auto">
                         <%if job.company.present?%>
@@ -71,7 +90,9 @@
                         <span href="#" class="py-1 text-xs font-regular text-gray-900 mr-1 flex flex-row items-center">
                             <i class="ri-building-4-fill"></i>
                             <%if job.company.present?%>
-                                <span class="ml-1"><%= job.company.company_name%></span>
+                                <a href="<%= company_path(job.company)%>">
+                                    <span class="ml-1"><%= job.company.company_name%></span>
+                                </a>
                             <%end%>
                         </span>
 

@@ -1,7 +1,7 @@
 class CompaniesController < ApplicationController
 
   before_action :set_company , only: [:edit, :update, :show]
-  before_action :check_company_authorization, only: [:edit, :update, :show]
+  before_action :check_company_authorization, only: [:edit, :update]
 
   def index
     @jobs= Job.all
@@ -23,6 +23,7 @@ class CompaniesController < ApplicationController
   #Update
   def edit
     @company
+    @followers= @company.followers
   end
 
   def update
